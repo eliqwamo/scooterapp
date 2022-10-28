@@ -10,6 +10,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+mongoose.connect(process.env.MONGODB);
+const connection = mongoose.connection;
+connection.once('open', () => {
+    console.log('Mongo database connection established successfully');
+})
+
 app.listen(process.env.SERVERPORT, () => {
     console.log(`Server is running under port ${process.env.SERVERPORT}`);
 })
