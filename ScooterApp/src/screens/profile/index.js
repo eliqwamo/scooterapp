@@ -14,4 +14,10 @@ const Profile = () => {
     )
 }
 
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'My Profile'
+    }
+}
+
 export default Profile;

@@ -14,4 +14,10 @@ const Social = () => {
     )
 }
 
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'Social'
+    }
+}
+
 export default Social;

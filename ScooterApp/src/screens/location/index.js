@@ -14,4 +14,10 @@ const Location = () => {
     )
 }
 
+export const screenOptions = navData => {
+    return {
+        headerTitle: 'Location'
+    }
+}
+
 export default Location;

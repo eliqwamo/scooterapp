@@ -5,10 +5,12 @@ import mongoose from 'mongoose';
 
 dotenv.config();
 const app = express();
-//const port = process.env.SERVERPORT;
 
 app.use(cors());
 app.use(express.json());
+
+import accountController from './controllers/account.js';
+app.use('/api/account', accountController);
 
 mongoose.connect(process.env.MONGODB);
 const connection = mongoose.connection;

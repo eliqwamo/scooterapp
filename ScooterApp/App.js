@@ -3,9 +3,9 @@ import { StyleSheet, Text, View } from 'react-native';
 import Account from './src/screens/account';
 import Dashboard from './src/screens/dashboard';
 import firebase from './src/utilis/firebase.js';
-
 import { NavigationContainer } from '@react-navigation/native';
-import { TabNavigator } from './src/navigation'
+import { TabNavigator } from './src/navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function App() {
 
