@@ -12,6 +12,9 @@ app.use(express.json());
 import accountController from './controllers/account.js';
 app.use('/api/account', accountController);
 
+import deviceController from './controllers/devices.js';
+app.use('/api/device', deviceController);
+
 mongoose.connect(process.env.MONGODB);
 const connection = mongoose.connection;
 connection.once('open', () => {
