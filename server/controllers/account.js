@@ -8,6 +8,7 @@ import bcryptjs from 'bcryptjs';
 import company from '../models/company.js';
 import jsonwebtoken from 'jsonwebtoken';
 import device from '../models/device.js';
+import { getDistance } from 'geolib';
 
 router.post('/signup', async (req, res) => {
     const { firstName, lastName, email, password, fbid } = req.body;
@@ -40,9 +41,38 @@ router.post('/signup', async (req, res) => {
         })
 })
 
+
+router.post('/getDevices', async(req,res) => {
+    const { latitude, longtitude, limit } = req.body;
+    const devices = await device.find().populate('companyId');
+    let devicesArr = [];
+
+        devices.forEach(device => {
+            const distance = getDistance(
+                { latitude: latitude, longitude: longtitude },
+                { latitude: device.currentLocation.latitude, longitude: device.currentLocation.longtitude  }
+            );
+            const _device = {
+                device: device,
+                dist: distance
+            };
+            if(parseInt(distance) <= parseInt(limit)){
+                devicesArr.push(_device);
+            }
+        })
+
+        return res.status(200).json({
+            status: true,
+            devices: devicesArr.sort((a, b) => a.dist - b.dist)
+        });
+})
+
+
+
 router.post('/login', async (req, res) => {
 
     const { email, password } = req.body;
+
     const user = await account.findOne({ email: email });
     if (user) {
         const data = {
@@ -56,14 +86,12 @@ router.post('/login', async (req, res) => {
         }
         const token = await jsonwebtoken.sign({ data }, process.env.TOKEN_KEY);
         const userCompany = await company.find({accountId: user._id});
-        const devices = await device.find().populate('companyId');
 
         return res.status(200).json({
             status: true,
             user: user,
             token: token,
-            userCompany: userCompany,
-            devices: devices
+            userCompany: userCompany
         });
     } else {
         return res.status(200).json({
@@ -72,6 +100,9 @@ router.post('/login', async (req, res) => {
         });
     }
 })
+
+
+
 
 router.post('/create_company', async (req, res) => {
     const _id = mongoose.Types.ObjectId();
