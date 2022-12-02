@@ -9,6 +9,40 @@ import company from '../models/company.js';
 import jsonwebtoken from 'jsonwebtoken';
 import device from '../models/device.js';
 import { getDistance } from 'geolib';
+import auth from './auth.js';
+
+/**
+ * @swagger
+ * definitions:
+ *  Account:
+ *   type: object
+ *   properties:
+ *    email:
+ *     type: string
+ *     description: The account email address
+ *     example: eli100@qwamo.com
+ *    password:
+ *     type: string
+ *     description: The account password
+ *     example: 123456
+ *  GetOverview: 
+ *   type: object
+ *   properties:
+ *    latitude:
+ *     type: float
+ *     description: The account location latitude
+ *     example: 31.250980961290715
+ *    longtitude:
+ *     type: float
+ *     description: The account location longtitude
+ *     example: 34.79196187269632
+ *    limit:
+ *     type: int
+ *     description: Limit the distance from devices
+ *     example: 500
+ */
+
+
 
 router.post('/signup', async (req, res) => {
     const { firstName, lastName, email, password, fbid } = req.body;
@@ -42,7 +76,26 @@ router.post('/signup', async (req, res) => {
 })
 
 
-router.post('/getDevices', async(req,res) => {
+
+/**
+ * @swagger
+ * /api/account/getDevices:
+ *  post:
+ *   summary: Get devices by user location
+ *   description: Add latitude, longtitude and limit in meters
+ *   tags: [Accounts]
+ *   requestBody:
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/definitions/GetOverview'
+ *   responses:
+ *    200:
+ *     description: Success
+ *    500:
+ *     description: Error in operation
+ */
+router.post('/getDevices', auth, async(req,res) => {
     const { latitude, longtitude, limit } = req.body;
     const devices = await device.find().populate('companyId');
     let devicesArr = [];
@@ -69,10 +122,26 @@ router.post('/getDevices', async(req,res) => {
 
 
 
+/**
+ * @swagger
+ * /api/account/login:
+ *  post:
+ *   summary: Create login
+ *   description: add email and password to login
+ *   tags: [Accounts]
+ *   requestBody:
+ *    content:
+ *     application/json:
+ *      schema:
+ *       $ref: '#/definitions/Account'
+ *   responses:
+ *    200:
+ *     description: Success
+ *    500:
+ *     description: Error in operation
+ */
 router.post('/login', async (req, res) => {
-
     const { email, password } = req.body;
-
     const user = await account.findOne({ email: email });
     if (user) {
         const data = {
@@ -101,9 +170,6 @@ router.post('/login', async (req, res) => {
     }
 })
 
-
-
-
 router.post('/create_company', async (req, res) => {
     const _id = mongoose.Types.ObjectId();
     const { accountId, companyName, companyLogo } = req.body;
@@ -127,8 +193,5 @@ router.post('/create_company', async (req, res) => {
             });
         })
 })
-
-
-
 
 export default router;
