@@ -7,6 +7,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 
 //SCREEN
 import Dashboard, { screenOptions as DashboardScreenOption } from "../screens/dashboard";
+import Chatroom, { screenOptions as ChatroomScreenOption } from '../screens/dashboard/Chatroom';
 import Location, { screenOptions as LocationScreenOption } from "../screens/location";
 import Profile, { screenOptions as ProfileScreenOption } from "../screens/profile";
 import Social, { screenOptions as SocialScreenOption } from "../screens/social";
@@ -21,6 +22,7 @@ export const DashboardStack = () => {
     return(
         <DashboardNavigation.Navigator screenOptions={defaultOptions}>
             <DashboardNavigation.Screen name="dashboard" component={Dashboard} options={DashboardScreenOption} />
+            <DashboardNavigation.Screen name="chatroom" component={Chatroom} options={ChatroomScreenOption} />
         </DashboardNavigation.Navigator>
     )
 }

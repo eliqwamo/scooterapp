@@ -28,9 +28,8 @@ export const screenOptions = navData => {
     return {
         headerTitle: 'Welcome',
         headerShown: true,
-        headerRight: () => (<Ionicons onPress={() => 
-            {Alert.alert('This is working well!')}} 
-            color={AppColors.white} name="settings-sharp" size={28} />)
+        headerRight: () => (<Ionicons onPress={() => {navData.navigation.navigate('chatroom')}} 
+            color={AppColors.white} name="ios-chatbubble-ellipses-outline" size={28} />)
     }
 }
 
