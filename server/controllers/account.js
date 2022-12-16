@@ -96,7 +96,15 @@ router.post('/signup', async (req, res) => {
  *     description: Error in operation
  */
 router.post('/getDevices', auth, async(req,res) => {
+
+
+
     const { latitude, longtitude, limit } = req.body;
+
+    console.log(latitude);
+    console.log(longtitude);
+    console.log(limit);
+
     const devices = await device.find().populate('companyId');
     let devicesArr = [];
 

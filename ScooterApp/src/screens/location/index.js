@@ -26,6 +26,9 @@ const Location = () => {
         })();
       }, []);
     
+
+      console.log(JSON.stringify(location));
+
       let text = 'Waiting..';
       if (errorMsg) {
         text = errorMsg;
@@ -53,7 +56,7 @@ const Location = () => {
         if(data.status){
           console.log(data);
         } else {
-          Alert.alert('No data for you bitch');
+          Alert.alert('No data for you');
         }
       }
 
