@@ -98,7 +98,6 @@ router.post('/signup', async (req, res) => {
 router.post('/getDevices', auth, async(req,res) => {
 
 
-
     const { latitude, longtitude, limit } = req.body;
 
     console.log(latitude);
@@ -148,32 +147,40 @@ router.post('/getDevices', auth, async(req,res) => {
  *    500:
  *     description: Error in operation
  */
-router.post('/login', async (req, res) => {
-    const { email, password } = req.body;
-    const user = await account.findOne({ email: email });
-    if (user) {
-        const data = {
-            id: user._id,
-            email: user.email,
-            fbid: user.fbid,
-            expoPushToken: user.expoPushToken,
-            firstName: user.firstName,
-            lastName: user.lastName,
-            avatar: user.avatar
+router.post('/login', async(req, res) => {
+    try {
+        const { email, password } = req.body;
+        const user = await account.findOne({ email: email });
+        if (user) {
+    
+            const data = {
+                id: user._id,
+                email: user.email,
+                fbid: user.fbid,
+                expoPushToken: user.expoPushToken,
+                firstName: user.firstName,
+                lastName: user.lastName,
+                avatar: user.avatar
+            }
+            const token = await jsonwebtoken.sign({ data }, process.env.TOKEN_KEY);
+            const userCompany = await company.find({accountId: user._id});
+    
+            return res.status(200).json({
+                status: true,
+                user: user,
+                token: token,
+                userCompany: userCompany
+            });
+        } else {
+            return res.status(200).json({
+                status: false,
+                message: 'User not exist'
+            });
         }
-        const token = await jsonwebtoken.sign({ data }, process.env.TOKEN_KEY);
-        const userCompany = await company.find({accountId: user._id});
-
-        return res.status(200).json({
-            status: true,
-            user: user,
-            token: token,
-            userCompany: userCompany
-        });
-    } else {
-        return res.status(200).json({
+    } catch (error) {
+        return res.status(500).json({
             status: false,
-            message: 'User not exist'
+            message: error.message
         });
     }
 })

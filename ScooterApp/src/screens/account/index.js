@@ -3,6 +3,7 @@ import { View, Text, TouchableOpacity, TextInput, Alert, ActivityIndicator } fro
 import Style from './style.js';
 import firebase from '../../utilis/firebase.js';
 import AppColors from '../../utilis/AppColors.js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Account = () => {
 
@@ -26,7 +27,7 @@ const Account = () => {
             const user = await firebase.auth().createUserWithEmailAndPassword(email,password);
             //TODO
             const api = 'http://10.100.6.1:3001/api/account/signup';
-            const action = fetch(api, {
+            const action = await fetch(api, {
                 method:'post',
                 headers: { 'Content-Type' : 'application/json' },
                 body: JSON.stringify({
@@ -51,7 +52,36 @@ const Account = () => {
 
     const fblogin = async() => {
         try {
-            const user = await firebase.auth().signInWithEmailAndPassword(email,password);
+            const api = 'http://10.100.6.1:3001/api/account/login';
+            const data = await fetch(api, {
+                method:'post',
+                headers: { 'Content-Type' : 'application/json' },
+                body: JSON.stringify({
+                    email: email,
+                    password: password
+                })
+            });
+
+            const response = await data.json();
+
+            if(response.status){              
+                
+                AsyncStorage.setItem('Account', JSON.stringify({
+                    token: response.token,
+                    firstName: response.user.firstName,
+                    lastName: response.user.lastName,
+                    email: response.user.email,
+                    avatar: response.user.avatar,
+                    fbid: response.user.fbid,
+                    expoPushToken: response.user.expoPushToken
+                }))
+                const user = await firebase.auth().signInWithEmailAndPassword(email,password);
+            } else {
+                console.log(JSON.stringify(response.message));
+                setErrorMsg(response.message);
+            }
+
+
         } catch (error) {
             setErrorMsg(error.message);
         }
