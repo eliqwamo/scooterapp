@@ -1,18 +1,22 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { View, Text, TouchableOpacity, TextInput, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, 
+  ActivityIndicator, TextInput, Alert } from 'react-native';
 import Style from './style.js';
 import firebase from '../../utilis/firebase.js';
 import * as LocationAccount from 'expo-location';
+import Colors from '../../utilis/AppColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Device from './Device.js';
 
 const Location = () => {
 
     const user = firebase.auth().currentUser;
 
     const [location, setLocation] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const [errorMsg, setErrorMsg] = useState(null);
-
     const [token, setToken] = useState(null);
+    const [devicesList, setDevicesList] = useState([]);
 
     const setMyData = useCallback(async () => {
         try {
@@ -34,16 +38,9 @@ const Location = () => {
 
 
 
-
-
-
-
     const requestData = async(location) => {
+
       const url = 'http://10.100.6.1:3001/api/account/getDevices';
-
-
-      console.log(JSON.stringify(location));
-
       const request = await fetch(url,{
           method:'post',
           headers: {
@@ -51,16 +48,17 @@ const Location = () => {
               'Authorization' : `Bearer ${token}`
           },
           body: JSON.stringify({
-            latitude: location.latitude,
-            longtitude: location.longitude,
+            latitude: '31.25052751524955',
+            longtitude: '34.79164329355345',
             limit: 500
           })
       })
-
       const data = await request.json();
       if(data.status){
-        console.log(data);
+
+        setDevicesList(data.devices);
       } else {
+
         Alert.alert('No data for you');
       }
     }
@@ -91,7 +89,20 @@ const Location = () => {
 
     return(
         <View style={Style.container}>
-            <Text>{text}</Text>
+            {
+              isLoading ? 
+              (
+                <ActivityIndicator size='large' color={Colors.purple} />
+              ) 
+              : 
+              (
+                <FlatList style={{width:'100%'}}
+                  data={devicesList}
+                  keyExtractor={item => item.device._id}
+                  renderItem={rowItem => <Device device={rowItem.item.device} />}
+                />
+              )
+            }
         </View>
     )
 }

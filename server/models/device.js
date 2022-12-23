@@ -6,7 +6,7 @@ const deviceSchema = new Schema({
     createdAt: {type: Date, default: Date.now},
     updatedAt: {type: Date, default: Date.now},
     companyId: {type: mongoose.Schema.Types.ObjectId, ref: 'Company'},
-    deviceType: String,
+    deviceType: String, //scooter//bicycle
     currentLocation: {
         latitude: Number,
         longtitude: Number,

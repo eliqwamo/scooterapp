@@ -98,6 +98,7 @@ router.post('/signup', async (req, res) => {
 router.post('/getDevices', auth, async(req,res) => {
 
 
+try {
     const { latitude, longtitude, limit } = req.body;
 
     console.log(latitude);
@@ -110,7 +111,8 @@ router.post('/getDevices', auth, async(req,res) => {
         devices.forEach(device => {
             const distance = getDistance(
                 { latitude: latitude, longitude: longtitude },
-                { latitude: device.currentLocation.latitude, longitude: device.currentLocation.longtitude  }
+                { latitude: device.currentLocation.latitude, 
+                    longitude: device.currentLocation.longtitude  }
             );
             const _device = {
                 device: device,
@@ -125,6 +127,13 @@ router.post('/getDevices', auth, async(req,res) => {
             status: true,
             devices: devicesArr.sort((a, b) => a.dist - b.dist)
         });
+} catch (error) {
+    console.log(error.message);
+    return res.status(500).json({
+        status: false,
+        message: error.message
+    });
+}
 })
 
 

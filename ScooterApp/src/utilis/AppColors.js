@@ -7,5 +7,9 @@ export default {
     dark_blue: '#25283D',
     white: '#ffffff',
     black: '#000000',
-    bg: '#ebebeb'
+    bg: '#ebebeb',
+    yellow: '#ffcc00',
+    red: '#880000',
+    batteryGreen: '#99cc00'
+
 }

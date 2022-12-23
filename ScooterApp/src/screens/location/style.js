@@ -12,7 +12,7 @@ export default StyleSheet.create({
     container: {
         flex:1,
         padding:30,
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.bg,
         alignItems:'center',
         justifyContent: 'center'
     },
@@ -30,5 +30,34 @@ export default StyleSheet.create({
     btn_text: {
         color:Colors.white,
         fontWeight:'700', fontSize:24
-    }
+    },
+
+
+
+
+
+    row_container:{
+        width:'100%', marginBottom:12,
+        backgroundColor:Colors.white,
+        borderRadius:10,
+    },
+    main: {
+        flexDirection:'row',
+        height:70,
+        backgroundColor:Colors.white,
+        borderTopRightRadius:10,
+        borderTopLeftRadius:10
+    },
+    battery: {
+        width:'100%',
+        height:30,
+        alignItems:'center', justifyContent:'center',
+        borderBottomRightRadius:10,
+        borderBottomLeftRadius:10,
+        backgroundColor:Colors.green
+    },
+
+    icon_container:{width:'20%', height:70, alignItems:'center', justifyContent:'center'},
+    info_container:{width:'60%'},
+    data_container:{width:'20%', alignItems:'center', justifyContent:'center', height:70},
 })
