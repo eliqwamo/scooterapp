@@ -8,7 +8,7 @@ import Colors from '../../utilis/AppColors';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Device from './Device.js';
 
-const Location = () => {
+const Location = (props) => {
 
     const user = firebase.auth().currentUser;
 
@@ -98,7 +98,7 @@ const Location = () => {
                 <FlatList style={{width:'100%'}}
                   data={devicesList}
                   keyExtractor={item => item.device._id}
-                  renderItem={rowItem => <Device device={rowItem.item} />}
+                  renderItem={rowItem => <Device onclick={() => {props.navigation.navigate('device_info',{device: rowItem.item})}} device={rowItem.item} />}
                 />
               )
             }

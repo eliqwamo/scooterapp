@@ -16,6 +16,14 @@ export default StyleSheet.create({
         alignItems:'center',
         justifyContent: 'center'
     },
+
+
+    container_full: {
+        flex:1,
+        backgroundColor: Colors.bg
+    },
+
+
     input:{
         width:'100%',
         padding:14, backgroundColor:Colors.white,

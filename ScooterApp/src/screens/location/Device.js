@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity } from 'react-native';
+import { View, Text, TouchableOpacity,Image } from 'react-native';
 import Styles from './style';
 import Colors from '../../utilis/AppColors'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -40,13 +40,19 @@ const Device = props => {
     }
 
     return (
-        <View style={Styles.row_container}>
+        <TouchableOpacity onPress={props.onclick} style={Styles.row_container}>
 
             <View style={Styles.main}>
                 <View style={Styles.icon_container}>
                     <MaterialCommunityIcons name={icon} size={40} color={iconColor} />
                 </View>
-                <View style={Styles.info_container}></View>
+                <View style={Styles.info_container}>
+                    <View style={{flexDirection:'row'}}>
+                        <Image source={{uri: props.device.device.companyId.companyLogo}} style={{width:40, height:40, resizeMode:'cover'}} />
+                        <Text style={{marginLeft:10, marginTop:10}}>{props.device.device.companyId.companyName}</Text>
+                    </View>
+                    <Text style={{marginTop:5}}>${props.device.device.rentAmountPerDay} per day</Text>
+                </View>
                 <View style={Styles.data_container}>
                     <MaterialCommunityIcons name={status} size={22} color={statusColor} />
                     <Text style={Styles.dist_text}>{props.device.dist}m</Text>
@@ -58,7 +64,7 @@ const Device = props => {
                 <Text style={{color:Colors.white}}>{props.device.device.batteryLevel}%</Text>
             </View>
 
-        </View>
+        </TouchableOpacity>
     )
 }
 

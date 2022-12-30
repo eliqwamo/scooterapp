@@ -9,6 +9,7 @@ import Entypo from 'react-native-vector-icons/Entypo';
 import Dashboard, { screenOptions as DashboardScreenOption } from "../screens/dashboard";
 import Chatroom, { screenOptions as ChatroomScreenOption } from '../screens/dashboard/Chatroom';
 import Location, { screenOptions as LocationScreenOption } from "../screens/location";
+import DeviceInfo, { screenOptions as DeviceInfoScreenOption } from "../screens/location/DeviceInfo";
 import Profile, { screenOptions as ProfileScreenOption } from "../screens/profile";
 import Social, { screenOptions as SocialScreenOption } from "../screens/social";
 
@@ -32,6 +33,7 @@ export const LocationStack = () => {
     return(
         <LocationNavigation.Navigator screenOptions={defaultOptions}>
             <LocationNavigation.Screen name="location" component={Location} options={LocationScreenOption} />
+            <LocationNavigation.Screen name="device_info" component={DeviceInfo} options={DeviceInfoScreenOption} />
         </LocationNavigation.Navigator>
     )
 }
