@@ -55,7 +55,6 @@ const Location = () => {
       })
       const data = await request.json();
       if(data.status){
-
         setDevicesList(data.devices);
       } else {
 
@@ -99,7 +98,7 @@ const Location = () => {
                 <FlatList style={{width:'100%'}}
                   data={devicesList}
                   keyExtractor={item => item.device._id}
-                  renderItem={rowItem => <Device device={rowItem.item.device} />}
+                  renderItem={rowItem => <Device device={rowItem.item} />}
                 />
               )
             }

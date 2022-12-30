@@ -60,4 +60,5 @@ export default StyleSheet.create({
     icon_container:{width:'20%', height:70, alignItems:'center', justifyContent:'center'},
     info_container:{width:'60%'},
     data_container:{width:'20%', alignItems:'center', justifyContent:'center', height:70},
+    dist_text:{fontSize:18, fontWeight:'700'},
 })
